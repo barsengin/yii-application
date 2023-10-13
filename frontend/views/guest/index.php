@@ -28,21 +28,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 </li>
             <?php endforeach; ?>
 
-        <?= LinkPager::widget([
-            'pagination' => $pagination,
-            'prevPageCssClass' => 'p-back',
-            'nextPageCssClass' => 'p-next',
+            <?= LinkPager::widget([
+                'pagination' => $pagination,
+                'prevPageCssClass' => 'p-back',
+                'nextPageCssClass' => 'p-next',
             ]) ?>
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
+            <?php $form = ActiveForm::begin(['action' => 'guest/create', 'id' => 'contact-form']); ?>
 
-                <div class="form-group">
-                    <?= Html::submitButton('Submit New Guest', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
-                </div>
+            <div class="form-group">
+                <?= Html::submitButton('Submit New Guest', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+            </div>
 
             <?php ActiveForm::end(); ?>
         </div>

@@ -93,6 +93,7 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
+        var_dump($_SERVER['REMOTE_ADDR']);exit();
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
@@ -263,34 +264,6 @@ class SiteController extends Controller
 
     public function actionGuest()
     {
-        $guest = Guest::find();
-        $pagination = new Pagination([
-            'defaultPageSize' => 5,
-            'totalCount' => $guest->count(),
-        ]);
-        $guests = $guest->orderBy('username')
-            ->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
 
-        $model = new Guest();
-        if (Yii::$app->request->post()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-            
-            $faker = Factory::create();
-            $model->username = $faker->name;
-            $model->email = $faker->text(15);
-            $model->description = $faker->text;
-            $model->status = 10;
-            $model->created_at = date('Ys');
-            $model->updated_at = date('Y');
-            $model->insert();
-        }
-
-        return $this->render('guest', [
-            'model' => $model,
-            'guests' => $guests,
-            'pagination' => $pagination
-        ]);   
     }
 }

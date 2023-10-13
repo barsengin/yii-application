@@ -4,7 +4,27 @@ return [
     'components' => [
         'db' => [
             'class' => \yii\db\Connection::class,
-            'dsn' => 'mysql:host=localhost;dbname=yii2advanced',
+            'dsn' => 'mysql:host=mysql;dbname=yii2advanced',
+            'username' => 'root',
+            'password' => 'verysecret',
+            //'enableSlaves' => false,
+            'charset' => 'utf8',
+            /*'slaveConfig' => [
+                'username' => 'root',
+                'password' => 'verysecret',
+                'charset' => 'utf8',
+                'attributes' => [
+                    // use a smaller connection timeout
+                    PDO::ATTR_TIMEOUT => 30,
+                ],
+            ],
+            'slaves' => [
+                ['dsn' => 'mysql:host=mysql;dbname=yii2advancedslave']
+            ]*/
+        ],
+        'db2' => [
+            'class' => \yii\db\Connection::class,
+            'dsn' => 'mysql:host=localhost;dbname=yii2advancedslave',
             'username' => 'root',
             'password' => 'verysecret',
             'charset' => 'utf8',

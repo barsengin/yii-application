@@ -22,6 +22,13 @@ class Guest extends ActiveRecord
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
+    
+    /*public static function getDb()
+    {
+        // use the "db2" application component
+        //Yii::$app->db->enableSlaves = false;
+        return \Yii::$app->db->slave;  
+    }*/
 
     /**
      * {@inheritdoc}

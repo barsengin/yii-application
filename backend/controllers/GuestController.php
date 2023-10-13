@@ -2,8 +2,10 @@
 
 namespace backend\controllers;
 
+use common\models\Guest;
 use common\models\LoginForm;
 use Yii;
+use yii\data\Pagination;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -12,7 +14,7 @@ use yii\web\Response;
 /**
  * Site controller
  */
-class SiteController extends Controller
+class GuestController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -24,11 +26,11 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['index', 'error'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['create', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -37,7 +39,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
-                    'logout' => ['post'],
+                    'index' => ['get'],
                 ],
             ],
         ];
@@ -58,11 +60,19 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return string
+     * @return
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $guest = Guest::find();
+        $pagination = new Pagination([
+            'defaultPageSize' => 3,
+            'totalCount' => $guest->count(),
+        ]);
+        return $guest->orderBy('username')
+            ->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
     }
 
     /**
@@ -72,9 +82,9 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
+        /*if (!Yii::$app->user->isGuest) {
             return $this->goHome();
-        }
+        }*/
 
         $this->layout = 'blank';
 
@@ -83,7 +93,7 @@ class SiteController extends Controller
             return $this->goBack();
         }
 
-        $model->password = '';
+        //$model->password = '';
 
         return $this->render('login', [
             'model' => $model,
